@@ -37,4 +37,7 @@ def login():
         )  # flash用于向下次request闪现数据，需要在模板中使用get_flashed_messages()函数获取内容
         return redirect('/index')
     print(form.openid.errors)
-    return render_template('login.html', title='Sign in', form=form)
+    return render_template('login.html',
+                           title='Sign in',
+                           form=form,
+                           providers=app.config['OPENID_PROVIDERS'])
