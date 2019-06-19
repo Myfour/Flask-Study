@@ -16,6 +16,9 @@ sqlalchemy-migrate = "*"
 flask-login = "*"
 flask-openid = "*"
 flask-bootstrap = "*"
+flask-moment = "*"
+flask-migrate = "*"
+flask-mail = "*"
 
 [requires]
 python_version = "3.6"

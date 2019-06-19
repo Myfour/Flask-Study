@@ -30,6 +30,18 @@ Flasky
 {% endblock %}
 {% block content %}
 <div class="container">
+    <!-- 下面这个for语句中的get_flashed_messages() 可以获取从服务器端flash()函数中传入的信息,在下个请求中闪现出来 -->
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
     {% block page_content %}{% endblock %}
 </div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
 {% endblock %}
