@@ -7,9 +7,12 @@ from flask_moment import Moment
 from flask_wtf import FlaskForm
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_mail import Mail
 
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
+
+from flask_mail import Message
 
 import os
 
@@ -20,7 +23,17 @@ print(__name__)
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
-
+# 配置邮件
+app.config['MAIL_SERVER'] = 'smtp.qq.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
+# 配置用来发邮件的邮箱账号
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get(
+    'MAIL_PASSWORD')  # eucilwvlrztrbajc
+app.config['FLASKY_MAIL_SUBJECT_PREFIX'] = '[Flasky]'
+app.config['FLASKY_MAIL_SENDER'] = 'Flasky Admin <913906842@qq.com>'  # 发送方
+mail = Mail(app)
 # 配置SQLAlchemy
 app.config[
     'SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.join(basedir,"data.sqlite")}'
@@ -101,6 +114,9 @@ class User(db.Model):
 
 app.config['SECRET_KEY'] = 'hard to guess string'
 
+# 管理员邮箱，来自环境变量
+app.config['FLASKY_ADMIN'] = os.environ.get('FLASKY_ADMIN')
+
 
 @app.route('/', methods=['GET', 'POST']
            )  # 设置func到url的路由;methods参数的设置是为了该视图可以处理POST的请求，否则只可以处理GET
@@ -111,10 +127,17 @@ def index():  # index()这样的函数称为视图函数
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.name.data).first()
         if not user:
+            print('New User...')
             user = User(username=form.name.data)
             db.session.add(user)
             db.session.commit()
             session['known'] = False
+            if app.config['FLASKY_ADMIN']:
+                print('Ready to send email...')
+                send_email(app.config['FLASKY_ADMIN'],
+                           'New User',
+                           'mail/new_user',
+                           user=user)
         else:
             session['known'] = True
         session['name'] = form.name.data
@@ -124,7 +147,7 @@ def index():  # index()这样的函数称为视图函数
         # print(session)
         return redirect(url_for('index'))  # url_for函数第一个参数是端点名
 
-    print(session)
+    # print(session)
     return render_template('index.html',
                            form=form,
                            name=session.get('name'),
@@ -230,6 +253,16 @@ class NameForm(FlaskForm):
 def make_shell_context():
     return dict(db=db, User=User, Role=Role)
     # dict中的这几个变量以及app被自动导入到flask shell环境中
+
+
+# 邮件
+def send_email(to, subject, template, **kwargs):
+    msg = Message(app.config['FLASKY_MAIL_SUBJECT_PREFIX'] + subject,
+                  sender=app.config['FLASKY_MAIL_SENDER'],
+                  recipients=[to])
+    msg.body = render_template(template + '.txt', **kwargs)
+    msg.html = render_template(template + '.html', **kwargs)
+    mail.send(msg)
 
 
 if __name__ == '__main__':
