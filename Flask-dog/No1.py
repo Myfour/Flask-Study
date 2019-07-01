@@ -27,7 +27,7 @@ moment = Moment(app)
 # 配置邮件
 app.config['MAIL_SERVER'] = 'smtp.qq.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USE_SSL'] = True  # 必要，没有会出问题
 # 配置用来发邮件的邮箱账号
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.environ.get(
