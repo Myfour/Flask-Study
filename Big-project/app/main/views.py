@@ -9,7 +9,7 @@ from ..models import User
 def index():
     form = NameForm()
     if form.validate_on_submit():
-        
+
         return redirect(url_for('.index'))
     return render_template('index.html',
                            form=form,
