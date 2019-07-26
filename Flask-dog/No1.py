@@ -250,6 +250,7 @@ class NameForm(FlaskForm):
 # 是flask shell 自动导入所需的内容
 
 
+# 往flask shell中导入对象
 @app.shell_context_processor
 def make_shell_context():
     return dict(db=db, User=User, Role=Role)

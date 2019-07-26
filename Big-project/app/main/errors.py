@@ -2,7 +2,7 @@ from flask import render_template
 from . import main
 
 
-@main.app_errorhandler(404)
+@main.app_errorhandler(404)  # app_errorhandler是全局的错误处理程序
 def page_not_found(e):
     return render_template('404.html'), 404
 
