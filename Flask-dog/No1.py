@@ -21,6 +21,7 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 print(__name__)
+print(__file__)
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 moment = Moment(app)

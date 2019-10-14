@@ -48,7 +48,7 @@ with app.test_request_context():
     print(url_for('other', next='999'))
     print(url_for('show_user_profile', username='Kaisi'))
     print(url_for('static', filename='Nes.css'))
-
+    print(__file__)
 # HTTP Method
 
 
