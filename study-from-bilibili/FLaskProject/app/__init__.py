@@ -3,7 +3,7 @@ from app.views.first_blue import blue
 from app.views.second_blue import second
 from app.views.third_blue import third
 from app.views.ext import init_ext
-from app.settings import config_app
+from app.settings import envs
 
 
 def create_app():
@@ -12,6 +12,6 @@ def create_app():
     app.register_blueprint(blue)
     app.register_blueprint(second)
     app.register_blueprint(third)
-    config_app(app)
+    app.config.from_object(envs.get('develop'))
     init_ext(app)
     return app
