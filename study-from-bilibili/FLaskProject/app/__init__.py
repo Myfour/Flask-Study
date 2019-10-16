@@ -12,6 +12,6 @@ def create_app():
     app.register_blueprint(blue)
     app.register_blueprint(second)
     app.register_blueprint(third)
-    app.config.from_object(envs.get('develop'))
+    app.config.from_object(envs.get('testing'))
     init_ext(app)
     return app

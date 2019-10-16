@@ -33,15 +33,16 @@ class Config:
 class DevelopConfig(Config):
     DEBUG = True
     dbinfo = {
-        'ENGINE': 'sqlite',
-        'DRIVER': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
+        'ENGINE': 'postgresql',
+        'DRIVER': 'psycopg2',
+        'USER': 'postgres',
+        'PASSWORD': '123',
+        'HOST': 'localhost',
         'PORT': '',
-        'DATABASE': 'sqlite.db'
+        'DATABASE': 'testdb'
     }
     SQLALCHEMY_DATABASE_URI = get_uri(dbinfo)
+    print(SQLALCHEMY_DATABASE_URI)
 
 
 class ProductConfig(Config):

@@ -1,4 +1,5 @@
 from flask import Blueprint, redirect, url_for, request
+from app.ext import db
 
 blue = Blueprint('blue', __name__)
 
@@ -62,3 +63,9 @@ def getrequest():
         return 'POST SUCCESS'
     else:
         return f'{request.method} is not support'
+
+
+@blue.route('/createdb')
+def createdb():
+    db.create_all()
+    return '数据库创建成功'

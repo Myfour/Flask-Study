@@ -20,6 +20,7 @@ flask-moment = "*"
 flask-migrate = "*"
 flask-mail = "*"
 flask-script = "*"
+psycopg2 = "*"
 
 [requires]
 python_version = "3.6"
