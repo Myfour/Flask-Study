@@ -19,6 +19,7 @@ flask-bootstrap = "*"
 flask-moment = "*"
 flask-migrate = "*"
 flask-mail = "*"
+flask-script = "*"
 
 [requires]
 python_version = "3.6"

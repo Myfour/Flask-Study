@@ -8,3 +8,9 @@ class User(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
+
+
+class Student(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    s_name = db.Column(db.String(20))
+    s_password = db.Column(db.String(256))
