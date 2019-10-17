@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, url_for, request
+from flask import Blueprint, redirect, url_for, request, Response, render_template, abort, session
 # from app.ext import db
 from app.models import db
 # 上面这里出了一个BUG如果不导入models中的db对象，则flask中目前就没有连接models.py文件，也就看不到模型的代码
@@ -72,3 +72,61 @@ def getrequest():
 def createdb():
     db.create_all()
     return '数据库创建成功'
+
+
+@blue.route('/sendrequest', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
+def sendrequest():
+    print(request.args)
+    print(type(request.args))
+    print(request.form)
+    print(type(request.form))
+    print(request.headers)
+    print(type(request.headers))
+    return 'send success'
+
+
+@blue.route('/getresponse')
+def getresponse():
+    # return 'Hello',400
+
+    # result = render_template('index.html')  # render_template就是把模板变成字符串
+    # print(result)
+    # print(type(result))
+
+    # 主动抛出错误请求
+    abort(401)
+    return
+
+
+# 捕获错误请求，可以用来捕获401请求
+@blue.errorhandler(401)
+def error_401(error):
+    print(error)
+    print(type(error))
+    return Response('What 401 happen', 401)
+
+
+@blue.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    else:
+        username = request.form.get('username')
+        response = Response(f'登录成功 ^-^ => {username}')
+        # response.set_cookie('username', username) # 设置cookie存储
+        session[
+            'username'] = username  # flask的session在cookie中序列化了一个session的key-value
+        session['password'] = username  # 会自动组合所有session为一个key-value
+        return response
+
+
+@blue.route('/mine')
+def mine():
+    # username = request.cookies.get('username')  # 获取cookie存储
+    username = session.get('username')
+    print(session)
+    print(type(session))
+    if username:
+        return render_template('mine.html', username=username)
+    else:
+        abort(401)
