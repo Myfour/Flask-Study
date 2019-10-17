@@ -1,5 +1,8 @@
 from flask import Blueprint, redirect, url_for, request
-from app.ext import db
+# from app.ext import db
+from app.models import db
+# 上面这里出了一个BUG如果不导入models中的db对象，则flask中目前就没有连接models.py文件，也就看不到模型的代码
+# 使用上面ext中的db对象也是可以的，不过需要在额外将models.py导入，才能正确使用model
 
 blue = Blueprint('blue', __name__)
 
