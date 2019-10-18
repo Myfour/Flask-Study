@@ -2,6 +2,7 @@
 #     app.config[
 #         'SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sqlite.db'  #'sqlite:///sqlite.db'  # 这里uri设置  数据库+驱动://用户名:密码@主机:端口/库
 #     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+from redis import Redis
 
 
 def get_uri(dbinfo):
@@ -28,7 +29,9 @@ class Config:
     DEBUG = False
     TESTING = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SECRET_KEY='scnslniuenknlnxuihce'
+    SECRET_KEY = 'scnslniuenknlnxuihce'
+    SESSION_TYPE = 'redis'  # 指定seesion接口
+    SESSION_REDIS = Redis(password='123')
 
 
 class DevelopConfig(Config):

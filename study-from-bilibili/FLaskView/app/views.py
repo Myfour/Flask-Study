@@ -130,3 +130,24 @@ def mine():
         return render_template('mine.html', username=username)
     else:
         abort(401)
+
+
+@blue.route('/students')
+def students():
+    studnet_list = [i for i in range(10)]
+    return render_template('students.html', student_list=studnet_list)
+
+
+@blue.route('/register')
+def register():
+    return render_template('user/user_register.html', title='用户登录注册')
+
+
+@blue.route('/register2')
+def register2():
+    return render_template('user/user_register2.html', title='用户登录注册2')
+
+
+@blue.route('/bootstrap')
+def bootstrap():
+    return render_template('base.html')

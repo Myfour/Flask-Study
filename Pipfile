@@ -21,6 +21,8 @@ flask-migrate = "*"
 flask-mail = "*"
 flask-script = "*"
 psycopg2 = "*"
+flask-session = "*"
+redis = "*"
 
 [requires]
 python_version = "3.6"
