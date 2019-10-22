@@ -23,6 +23,7 @@ flask-script = "*"
 psycopg2 = "*"
 flask-session = "*"
 redis = "*"
+flask-debugtoolbar = "*"
 
 [requires]
 python_version = "3.6"

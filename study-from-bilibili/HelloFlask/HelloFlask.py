@@ -1,10 +1,13 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
+from flask_debugtoolbar import DebugToolbarExtension
 
 app = Flask(__name__)
 db = SQLAlchemy()
 db.init_app(app)
-
+app.debug = True
+app.config['SECRET_KEY'] = 'sdfsdfwesw'
+DebugToolbarExtension(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sqlite.db'
 
 
@@ -15,7 +18,7 @@ class User(db.Model):
 
 @app.route('/')
 def index():
-    return '<h1>Hello Flask</h1>'
+    return render_template('index.html')
 
 
 @app.route('/create')

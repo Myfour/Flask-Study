@@ -2,7 +2,10 @@ from flask import Blueprint, render_template
 from app.models import Student, db
 import random
 
-blue = Blueprint('blue', __name__)
+blue = Blueprint('blue',
+                 __name__,
+                 template_folder='../templates',
+                 url_prefix='/db')  # 也可以在蓝图中设置模板路径,以及路由前缀
 
 
 def init_views(app):
