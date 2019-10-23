@@ -11,4 +11,3 @@ def init_ext(app):
     db.init_app(app)
     migrate.init_app(app, db)
     toolbar.init_app(app)
-    

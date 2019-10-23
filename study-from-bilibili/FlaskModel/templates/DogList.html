@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <ul>
+        {% for dog in dogs%}
+        <li>{{ dog.a_name }}</li>
+        {% endfor %}
+    </ul> -->
+
+    <hr>
+
+    <ul>
+        {% for dog in pagination.items %}
+        <li>{{ dog.a_name }}</li>
+        {% endfor %}
+    </ul>
+    <div class=pagination>
+        {%- for page in pagination.iter_pages() %}
+        {% if page %}
+        {% if page != pagination.page %}
+        <a href="{{ url_for('blue.get_dogswithpage', page=page,per_page=per_page) }}">{{ page }}</a>
+        {% else %}
+        <strong>{{ page }}</strong>
+        {% endif %}
+        {% else %}
+        <span class=ellipsis>…</span>
+        {% endif %}
+        {%- endfor %}
+    </div>
+</body>
+
+</html>
