@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, g, request, render_template
-from app.models import News, db
+from app.models import News, db, Students
 import random
+from werkzeug.security import generate_password_hash, check_password_hash
 blue = Blueprint('blue', __name__)
 
 
@@ -39,6 +40,30 @@ def student_register():
     if request.method == 'GET':
         return render_template('StudentRegister.html')
     elif request.method == 'POST':
-        print(request.data.get('username'))
-        print(request.form)
-        return ''
+        username = request.form.get('username')
+        password = request.form.get('password')
+        hashpassword = generate_password_hash(password)
+        # print(username, password, hashpassword)
+        students = Students()
+        students.s_name = username
+        students.s_password = hashpassword
+        db.session.add(students)
+        db.session.commit()
+        return 'Register Success'
+
+
+@blue.route('/student/login', methods=['POST', 'GET'])
+def student_login():
+    if request.method == 'GET':
+        return render_template('StudentLogin.html')
+    elif request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        student = Students.query.filter_by(s_name=username).first()
+        if student:
+            if check_password_hash(student.s_password, password):
+                return 'login Success'
+            else:
+                return 'Password not right'
+        else:
+            return 'Wrong User'
