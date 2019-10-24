@@ -169,7 +169,11 @@ def add_address():
 def get_customer():
     a_id = request.args.get('a_id', type=int)
     address = Address.query.get_or_404(a_id)
-    customer = Customer.query.get(address.a_customer_id)
+    # customer = Customer.query.get(address.a_customer_id)
+    customer = address.customer
+    print(address.a_customer_id)
+    print(customer)
+    print(type(customer))
     return customer.c_name
 
 
@@ -177,5 +181,8 @@ def get_customer():
 def get_addresses():
     c_id = request.args.get('c_id', type=int)
     customer = Customer.query.get(c_id)
-    addresses = Address.query.filter_by(a_customer_id=customer.id)
+    # addresses = Address.query.filter_by(a_customer_id=customer.id)
+    addresses = customer.addresses
+    print(type(addresses))
+    print(addresses)
     return render_template('AddressList.html', addresses=addresses)

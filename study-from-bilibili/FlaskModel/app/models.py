@@ -29,12 +29,15 @@ class Cat(Animal):
     c_eat = db.Column(db.String(32), default='fish')
 
 
+# 关系
 class Customer(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     c_name = db.Column(db.String(16))
+    addresses = db.relationship('Address', backref='customer', lazy=True)
 
 
 class Address(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     a_position = db.Column(db.String(16))
-    a_customer_id = db.Column(db.Integer, db.ForeignKey(Customer.id))
+    a_customer_id = db.Column(db.Integer, db.ForeignKey(
+        Customer.id))  # 如果Customer类的创建晚于Address这里可以使用字符串的类名来替代这个类
