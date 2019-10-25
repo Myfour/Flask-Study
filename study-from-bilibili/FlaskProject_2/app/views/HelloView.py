@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, g, request, render_template
+from flask import Blueprint, render_template, g, request, render_template, redirect, flash, url_for
 from app.models import News, db, Students
 import random
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -42,11 +42,9 @@ def student_register():
     elif request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-        hashpassword = generate_password_hash(password)
-        # print(username, password, hashpassword)
         students = Students()
         students.s_name = username
-        students.s_password = hashpassword
+        students.password = password
         db.session.add(students)
         db.session.commit()
         return 'Register Success'
@@ -61,9 +59,11 @@ def student_login():
         password = request.form.get('password')
         student = Students.query.filter_by(s_name=username).first()
         if student:
-            if check_password_hash(student.s_password, password):
+            if student.check_password(password):
                 return 'login Success'
             else:
-                return 'Password not right'
+                flash('Password not right')
+                return redirect(url_for('blue.student_login'))
         else:
-            return 'Wrong User'
+            flash('User not exist')
+            return redirect(url_for('blue.student_login'))

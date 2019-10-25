@@ -1,3 +1,4 @@
+from werkzeug.security import generate_password_hash, check_password_hash
 from app.ext import db
 
 
@@ -12,4 +13,15 @@ class News(db.Model):
 class Students(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     s_name = db.Column(db.String(16), unique=True)
-    s_password = db.Column(db.String(256))
+    _s_password = db.Column(db.String(256))
+
+    @property
+    def password(self):
+        raise Exception('Password write only ')
+
+    @password.setter
+    def password(self, value):
+        self._s_password = generate_password_hash(value)
+
+    def check_password(self, password):
+        return check_password_hash(self._s_password, password)
