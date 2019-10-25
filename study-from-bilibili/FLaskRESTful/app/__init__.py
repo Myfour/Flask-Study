@@ -1,17 +1,14 @@
 from flask import Flask
-from app.views.first_blue import blue
-from app.views.second_blue import second
-from app.views.third_blue import third
-from app.views.ext import init_ext
+from app.ext import init_ext
 from app.settings import envs
+from app.views import init_views
+from app.apis import init_api
 
 
 def create_app():
     app = Flask(__name__)
-
-    app.register_blueprint(blue)
-    app.register_blueprint(second)
-    app.register_blueprint(third)
-    app.config.from_object(envs.get('testing'))
+    app.config.from_object(envs.get('develop'))
     init_ext(app)
+    init_views(app)
+    init_api(app)
     return app

@@ -38,8 +38,8 @@ class DevelopConfig(Config):
         'USER': 'postgres',
         'PASSWORD': '123',
         'HOST': 'localhost',
-        'PORT': '',
-        'DATABASE': 'testdb'
+        'PORT': '5433',
+        'DATABASE': 'restful'
     }
     SQLALCHEMY_DATABASE_URI = get_uri(dbinfo)
 
