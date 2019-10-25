@@ -3,6 +3,8 @@ from app.models import News, db, Students
 import random
 from werkzeug.security import generate_password_hash, check_password_hash
 blue = Blueprint('blue', __name__)
+from flask_mail import Message
+from app.ext import mail
 
 
 @blue.route('/')
@@ -67,3 +69,12 @@ def student_login():
         else:
             flash('User not exist')
             return redirect(url_for('blue.student_login'))
+
+
+@blue.route('/sendmail')
+def send_mail():
+    msg = Message('Flask Email', recipients=['oz_myx@126.com'])
+    msg.body = '哈哈 不过如此'
+    msg.html = '<h1>你他娘的可真是个天才</h1>'
+    mail.send(message=msg)
+    return 'Send success'
