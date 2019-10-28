@@ -3,6 +3,7 @@ from app.ext import init_ext
 from app.settings import envs
 from app.views import init_views
 from app.apis import init_api
+from app import models
 
 
 def create_app():
