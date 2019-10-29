@@ -1,4 +1,4 @@
-from flask_restful import Resource, abort, marshal, fields, marshal_with  # marshal 和 marshal_with用来序列化
+from flask_restful import Resource, abort, marshal, fields, marshal_with, reqparse  # marshal 和 marshal_with用来序列化
 from flask import request
 from app.models import Goods
 
@@ -27,6 +27,24 @@ multi_goods_fields = {
     'desc': fields.String(default='默认描述')  # 当这个字段没有找到映射的值时，使用default属性可以设置其默认值
 }
 
+# 使用reqparse配置可校验的输入参数
+parser = reqparse.RequestParser()
+parser.add_argument(
+    'g_name', type=str, required=True,
+    help='g_name不能为空')  # type控制参数类型，required控制是否能空，help显示当任何问题出现时的提示信息
+parser.add_argument('g_price',
+                    type=float,
+                    required=True,
+                    help='g_price不能为空或者是字符串')
+# 当参数是个列表时的处理
+parser.add_argument(
+    'muti', dest='mu',
+    action='append')  # action='append'设置结果为一个list;dest设置这个参数之后获取时使用的别名为mu
+
+parser.add_argument('User-Agent', location='headers')
+# location设置参数获取的位置，可以从header或者cookies等地方获取
+# 也可以给location传入一个List来从多个地方获取，获取到多个值的情况可以通过action='append'来处理结果
+
 
 class GoodsListResource(Resource):
     @marshal_with(multi_goods_fields)
@@ -41,8 +59,13 @@ class GoodsListResource(Resource):
 
     @marshal_with(single_goods_fields)
     def post(self):
-        g_name = request.form.get('g_name')
-        g_price = request.form.get('g_price')
+        # g_name = request.form.get('g_name')
+        # g_price = request.form.get('g_price') # 使用request.form获取的参数无校验功能
+        args = parser.parse_args()
+        g_name = args.get('g_name')
+        g_price = args.get('g_price')
+        print(args.get('mu'))  # 当该参数设置了append的action后get到的就是一个list
+        print(args.get('User-Agent'))
         goods = Goods()
         goods.g_name = g_name
         goods.g_price = g_price
@@ -67,6 +90,8 @@ class GoodsResource(Resource):
     @marshal_with(single_goods_fields)
     def get(self, id):
         goods = Goods.query.get(id)
+        if not goods:
+            abort(404)
         data = {
             'status': 200,
             'msg': 'ok',
