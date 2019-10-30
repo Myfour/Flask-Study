@@ -1,7 +1,8 @@
 from . import main
-from flask import render_template, abort, request, redirect, session, url_for, flash
+from flask import render_template, abort, request, redirect, session, url_for, flash, current_app
 from .forms import NameForm
 from app.models import User, db
+from app.email import send_email
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -14,6 +15,10 @@ def index():
             db.session.add(user)
             db.session.commit()
             session['known'] = False
+            send_email('oz_myx@126.com',
+                       'HHHHHHH',
+                       'test',
+                       user=User.query.first())
         else:
             session['known'] = True
         if session.get('name') != form.name.data:
@@ -35,7 +40,12 @@ def test():
     # return render_template('base.html')
     # return render_template('500.html')
     # abort(500)
-    return render_template('test.txt')  # render_template可以读取文本文件作为模板
+    # print(current_app)
+    # print(type(current_app))
+    # print(current_app._get_current_object())
+    # return render_template('test.txt')  # render_template可以读取文本文件作为模板
+    send_email('oz_myx@126.com', 'HHHHHHH', 'test', user=User.query.first())
+    return 'True'
 
 
 @main.app_errorhandler(404)
