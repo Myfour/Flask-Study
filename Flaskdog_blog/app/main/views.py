@@ -43,9 +43,9 @@ def test():
     # print(current_app)
     # print(type(current_app))
     # print(current_app._get_current_object())
-    # return render_template('test.txt')  # render_template可以读取文本文件作为模板
-    send_email('oz_myx@126.com', 'HHHHHHH', 'test', user=User.query.first())
-    return 'True'
+    return render_template('index.html')  # render_template可以读取文本文件作为模板
+    # send_email('oz_myx@126.com', 'HHHHHHH', 'test', user=User.query.first())
+    # return 'True'
 
 
 @main.app_errorhandler(404)
