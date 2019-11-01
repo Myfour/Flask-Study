@@ -28,6 +28,7 @@ flask-debugtoolbar = "*"
 flask-cache = "*"
 requests = "*"
 flask-restful = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.6"
