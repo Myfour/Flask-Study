@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% from 'macro.html' import form_field %}
+{% block nav%}
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static',filename='bootstrap.min.css')}}">
+{% endblock %}
+{% block content %}
+<form action="{{ url_for('basic')}}" method="POST">
+    <!-- {{ form.csrf_token }} -->
+    {{ form.hidden_tag() }}
+    {{ form.username.label }}{{ form.username }} <br>
+    {% for message in form.username.errors %} <small class="error">{{ message }}</small><br> {% endfor %}
+    {{ form_field(form.password)}}
+    {{ form_field(form.remember)}}
+    {{ form.submit }}
+</form>
+{% endblock %}
+{% block footer %}
+{% endblock %}

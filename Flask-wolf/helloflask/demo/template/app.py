@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, flash, redirect, url_for
 app = Flask(__name__)
 user = {
     'username': 'Grey Li',
@@ -66,6 +66,18 @@ def bar():
     return 'I am bar global function'
 
 
+# render_template 就是将模板返回一个对应的字符串 ，最后交给return返回这个模板的字符串表示
 @app.route('/index')
 def index():
-    pass
+    # print(type(render_template('test.html')))
+    # print(render_template('test.html'))
+    return 'index'
+
+
+@app.route('/flash')
+def just_flash():
+    flash("i'm flash who is looking for me?")
+    return redirect(url_for('watchlist'))
+
+
+app.secret_key = 'guess'

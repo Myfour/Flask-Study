@@ -11,6 +11,9 @@
 <body>
     <a href="{{ url_for('index') }}">&larr; Return</a>
 </body>
+{% for message in get_flashed_messages() %}
+<div class="alert">{{ message }}</div>
+{% endfor %}
 <h2>{{user.username}}</h2>
 {% if user.bio %}
 <li>{{ user.bio }}</li>
