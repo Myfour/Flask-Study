@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% from 'macro.html' import form_field %}
+{% block content %}
+ 
+<form method="POST" enctype="multipart/form-data"> 
+    <!-- {{ form.hidden_tag()}} -->
+    {{ form.csrf_token }}
+    {{ form_field(form.photo)}}
+    {{ form.submit }}
+</form>
+{% endblock %}

@@ -29,6 +29,7 @@ flask-cache = "*"
 requests = "*"
 flask-restful = "*"
 python-dotenv = "*"
+flask-ckeditor = "*"
 
 [requires]
 python_version = "3.6"
