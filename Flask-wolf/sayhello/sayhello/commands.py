@@ -24,7 +24,8 @@ def forge(count):
     from faker import Faker
     db.drop_all()
     db.create_all()
-    fake = Faker('zh_cn')
+    # fake = Faker('zh_cn') # 控制生成中文数据
+    fake = Faker()
     click.echo('now faker is Working ....')
     for i in range(count):
         message = Message(name=fake.name(),
