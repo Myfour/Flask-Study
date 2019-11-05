@@ -1,0 +1,10 @@
+<div style="width: 580px; padding: 20px;">
+    <h3>Hello {{ name }},</h3>
+    <p>Thank you for subscribing Flask Weekly!</p>
+    <p>Enjoy the reading :)</p>
+    <hr>
+    <img src="http://i2.sinaimg.cn/ent/j/2008-06-26/U1358P28T3D2076577F326DT20080626143817.jpg" alt="Nothing">
+    <small style="color: #05cfbeda;">
+        Click here to <a href='{{ url_for("subscribe",_external=True)}}'>unsubscribe</a>.
+    </small>
+</div>
