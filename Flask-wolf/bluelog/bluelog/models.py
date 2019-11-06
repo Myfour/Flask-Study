@@ -1,5 +1,6 @@
 from bluelog.extensions import db
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class Admin(db.Model):
@@ -10,6 +11,12 @@ class Admin(db.Model):
     blog_sub_title = db.Column(db.String(100))
     name = db.Column(db.String(30))
     about = db.Column(db.Text)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def validate_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
 
 class Category(db.Model):
@@ -36,7 +43,7 @@ class Comment(db.Model):
     body = db.Column(db.Text)
     from_admin = db.Column(db.Boolean, default=False)
     reviewed = db.Column(db.Boolean, default=False)
-    timestamp = db.Column(db.DateTiem, default=datetime.utcnow(), index=True)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow(), index=True)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
     post = db.relationship('Post', back_populates='comments')
     # 建立同一个模型自身的一对多关系，叫做邻接列表关系
